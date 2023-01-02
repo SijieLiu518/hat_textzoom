@@ -3,15 +3,15 @@ MODEL:
 
 TRAIN:
   train_data_dir: [
-    '../dataset/lmdb/str/TextZoom/train1',
-    '../dataset/lmdb/str/TextZoom/train2',
+    'dataset/TextZoom/train1',
+    'dataset/TextZoom/train2',
   ]
-  batch_size: 512
+  batch_size: 10
   width: 128
   height: 32
   epochs: 500
   cuda: True
-  ngpu: 4
+  ngpu: 2
   workers: 2
   resume: ''
   ckpt_dir: './ckpt/'
@@ -29,16 +29,16 @@ TRAIN:
 
   VAL:
     val_data_dir: [
-      '../dataset/lmdb/str/TextZoom/test/hard',
-      '../dataset/lmdb/str/TextZoom/test/easy',
-      '../dataset/lmdb/str/TextZoom/test/medium',
+      'dataset/TextZoom/test/hard',
+      'dataset/TextZoom/test/easy',
+      'dataset/TextZoom/test/medium',
     ]
     n_vis: 10
     vis_dir: 'demo'
-    valInterval: 200 #-1, val at the end of epoch
+    valInterval: 1000 #-1, val at the end of epoch
     rec_pretrained: 'demo.pth.tar'
-    moran_pretrained: 'moran.pth'
-    crnn_pretrained: 'crnn.pth'
+    # moran_pretrained: 'moran.pth'
+    # crnn_pretrained: 'crnn.pth'
 
 TEST:
   checkpoint: ''

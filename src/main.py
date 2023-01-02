@@ -20,8 +20,8 @@ def main(config, args):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='')
-    parser.add_argument('--arch', default='tsrn', choices=['tsrn', 'bicubic', 'srcnn', 'vdsr', 'srres', 'esrgan', 'rdn',
-                                                           'edsr', 'lapsrn'])
+    parser.add_argument('--arch', default='hat', choices=['tsrn', 'bicubic', 'srcnn', 'vdsr', 'srres', 'esrgan', 'rdn',
+                                                           'edsr', 'lapsrn', 'hat'])
     parser.add_argument('--test', action='store_true', default=False)
     parser.add_argument('--test_data_dir', type=str, default='../dataset/lmdb/str/TextZoom/test/medium/', help='')
     parser.add_argument('--batch_size', type=int, default=None, help='')

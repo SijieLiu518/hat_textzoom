@@ -15,7 +15,7 @@ from torchvision import transforms
 from torch.autograd import Variable
 from collections import OrderedDict
 
-from model import bicubic, srcnn, vdsr, srresnet, edsr, esrgan, rdn, lapsrn, tsrn
+from model import bicubic, srcnn, vdsr, srresnet, edsr, esrgan, rdn, lapsrn, tsrn, hat_arch
 from model import recognizer
 from model import moran
 from model import crnn
@@ -144,6 +144,14 @@ class TextBase(object):
         elif self.args.arch == 'lapsrn':
             model = lapsrn.LapSRN(scale_factor=self.scale_factor, width=cfg.width, height=cfg.height, STN=self.args.STN)
             image_crit = lapsrn.L1_Charbonnier_loss()
+        elif self.args.arch == 'hat':
+            model = hat_arch.HAT(
+                        in_chans=4,
+                        img_size=(16, 64),
+                        window_size=16,
+                        upsampler='pixelshuffle')
+            image_crit = image_loss.ImageLoss(gradient=self.args.gradient, loss_weight=[1, 1e-4])
+            # image_crit = nn.L1Loss()
         else:
             raise ValueError
         if self.args.arch != 'bicubic':
@@ -183,7 +191,7 @@ class TextBase(object):
             images = ([tensor_in, tensor_out.cpu(), tensor_target.cpu()])
             vis_im = torch.stack(images)
             vis_im = torchvision.utils.make_grid(vis_im, nrow=1, padding=0)
-            out_root = os.path.join('./demo', self.vis_dir)
+            out_root = os.path.join('../demo', self.vis_dir)
             if not os.path.exists(out_root):
                 os.mkdir(out_root)
             out_path = os.path.join(out_root, str(index))
@@ -191,7 +199,7 @@ class TextBase(object):
                 os.mkdir(out_path)
             im_name = pred_str_lr[i] + '_' + pred_str_sr[i] + '_' + label_strs[i] + '_.png'
             im_name = im_name.replace('/', '')
-            if index is not 0:
+            if index != 0:
                 torchvision.utils.save_image(vis_im, os.path.join(out_path, im_name), padding=0)
 
     def test_display(self, image_in, image_out, image_target, pred_str_lr, pred_str_sr, label_strs, str_filt):

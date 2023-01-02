@@ -145,5 +145,7 @@ class GruBlock(nn.Module):
 
 if __name__ == '__main__':
     # net = NonLocalBlock2D(in_channels=32)
+    # model = TSRN(scale_factor=self.scale_factor, width=cfg.width, height=cfg.height,
+    #                                    STN=self.args.STN, mask=self.mask, srb_nums=self.args.srb, hidden_units=self.args.hd_u)
+            
     img = torch.zeros(7, 3, 16, 64)
-    embed()

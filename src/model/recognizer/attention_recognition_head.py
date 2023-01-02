@@ -108,7 +108,7 @@ class AttentionRecognitionHead(nn.Module):
       sequence_scores = scores.view(batch_size * beam_width, 1)
 
       # Update fields for next timestep
-      predecessors = (candidates / self.num_classes + pos_index.expand_as(candidates)).view(batch_size * beam_width, 1)
+      predecessors = (candidates / self.num_classes + pos_index.expand_as(candidates)).view(batch_size * beam_width, 1).long()
       state = state.index_select(1, predecessors.squeeze())
 
       # Update sequence socres and erase scores for <eos> symbol so that they aren't expanded

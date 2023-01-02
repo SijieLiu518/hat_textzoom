@@ -76,7 +76,7 @@ class STNHead(nn.Module):
     ctrl_pts_top = np.stack([ctrl_pts_x, ctrl_pts_y_top], axis=1)
     ctrl_pts_bottom = np.stack([ctrl_pts_x, ctrl_pts_y_bottom], axis=1)
     ctrl_points = np.concatenate([ctrl_pts_top, ctrl_pts_bottom], axis=0).astype(np.float32)
-    if self.activation is 'none':
+    if self.activation == 'none':
       pass
     elif self.activation == 'sigmoid':
       ctrl_points = -np.log(1. / ctrl_points - 1.)
