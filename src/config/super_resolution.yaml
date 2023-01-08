@@ -2,17 +2,19 @@ MODEL:
 
 
 TRAIN:
+  logger_dir: './logger/'
   train_data_dir: [
     'dataset/TextZoom/train1',
     'dataset/TextZoom/train2',
   ]
-  batch_size: 10
+  batch_size: 80
   width: 128
   height: 32
   epochs: 500
   cuda: True
   ngpu: 2
   workers: 2
+  # resume: './ckpt/vis/model_best.pth'
   resume: ''
   ckpt_dir: './ckpt/'
   voc_type: 'all' #'digits lower upper all'

@@ -148,4 +148,10 @@ if __name__ == '__main__':
     # model = TSRN(scale_factor=self.scale_factor, width=cfg.width, height=cfg.height,
     #                                    STN=self.args.STN, mask=self.mask, srb_nums=self.args.srb, hidden_units=self.args.hd_u)
             
-    img = torch.zeros(7, 3, 16, 64)
+    # img = torch.zeros(7, 3, 16, 64)
+    device = torch.device('cuda')
+    net = TSRN()
+    net = net.to(device)
+    input = torch.rand(7, 3, 16, 64)
+    input = input.to(device)
+    output = net(input)

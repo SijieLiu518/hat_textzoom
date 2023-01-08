@@ -15,6 +15,7 @@ import torch.nn as nn
 from thop import profile
 from PIL import Image
 import numpy as np
+import logging
 
 sys.path.append('../')
 sys.path.append('./')
@@ -28,6 +29,20 @@ from utils import utils_moran
 class TextSR(base.TextBase):
     def train(self):
         cfg = self.config.TRAIN
+        # '----------------- init logger ------------------'
+        log_dir = './logger/'
+        log_filename = 'train{}.log'.format(datetime.now().strftime('%Y-%m-%d_%H:%M:%S'))
+        log_filename = os.path.join(log_dir, log_filename)
+        if not os.path.exists(log_filename):
+            open(log_filename, 'a').close()            
+        logging.basicConfig(level=logging.DEBUG,
+                    filename=log_filename,
+                    filemode='w', 
+                    format='%(asctime)s %(levelname)s: %(message)s'
+                    )
+        logger = logging.getLogger()
+        logger.info(self.config)
+        logger.info('------------------- start training -------------------')
         train_dataset, train_loader = self.get_train_data()
         val_dataset_list, val_loader_list = self.get_val_data()
         model_dict = self.generator_init()
@@ -75,21 +90,27 @@ class TextSR(base.TextBase):
 
                 # torch.cuda.empty_cache()
                 if iters % cfg.displayInterval == 0:
-                    print('[{}]\t'
-                          'Epoch: [{}][{}/{}]\t'
-                          'vis_dir={:s}\t'
-                          '{:.3f} \t'
-                          .format(datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
-                                  epoch, j + 1, len(train_loader),
+                    print('Epoch: [{}][{}/{}]\t'
+                        'vis_dir={:s}\t'
+                        '{:.3f} \t'
+                        .format(epoch, j + 1, len(train_loader),
                                   self.vis_dir,
                                   float(loss_im.data)))
+                    logger.info('Epoch: [{}][{}/{}]\t'
+                        'vis_dir={:s}\t'
+                        '{:.3f} \t'
+                        .format(epoch, j + 1, len(train_loader),
+                                self.vis_dir,
+                                float(loss_im.data)))
 
                 if iters % cfg.VAL.valInterval == 0:
                     print('======================================================')
+                    logger.info('======================================================')
                     current_acc_dict = {}
                     for k, val_loader in enumerate(val_loader_list):
                         data_name = self.config.TRAIN.VAL.val_data_dir[k].split('/')[-1]
                         print('evaling %s' % data_name)
+                        logger.info('evaling %s' % data_name)
                         metrics_dict = self.eval(model, val_loader, image_crit, iters, aster, aster_info)
                         converge_list.append({'iterator': iters,
                                               'acc': metrics_dict['accuracy'],
@@ -101,9 +122,12 @@ class TextSR(base.TextBase):
                             best_history_acc[data_name] = float(acc)
                             best_history_acc['epoch'] = epoch
                             print('best_%s = %.2f%%*' % (data_name, best_history_acc[data_name] * 100))
+                            logger.info('best_%s = %.2f%%*' % (data_name, best_history_acc[data_name] * 100))
+
 
                         else:
                             print('best_%s = %.2f%%' % (data_name, best_history_acc[data_name] * 100))
+                            logger.info('best_%s = %.2f%%' % (data_name, best_history_acc[data_name] * 100))
                     if sum(current_acc_dict.values()) > best_acc:
                         best_acc = sum(current_acc_dict.values())
                         best_model_acc = current_acc_dict
@@ -112,6 +136,7 @@ class TextSR(base.TextBase):
                         best_model_ssim[data_name] = metrics_dict['ssim_avg']
                         best_model_info = {'accuracy': best_model_acc, 'psnr': best_model_psnr, 'ssim': best_model_ssim}
                         print('saving best model')
+                        logger.info('saving best model')
                         self.save_checkpoint(model, epoch, iters, best_history_acc, best_model_info, True, converge_list)
 
                 if iters % cfg.saveInterval == 0:
@@ -119,6 +144,8 @@ class TextSR(base.TextBase):
                     self.save_checkpoint(model, epoch, iters, best_history_acc, best_model_info, False, converge_list)
 
     def eval(self, model, val_loader, image_crit, index, aster, aster_info):
+        # '---------------- get logger -------------------------'
+        logger = logging.getLogger()
         for p in model.parameters():
             p.requires_grad = False
         for p in aster.parameters():
@@ -160,12 +187,18 @@ class TextSR(base.TextBase):
               .format(datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
                       float(loss_rec.data), float(loss_im.data),
                       float(psnr_avg), float(ssim_avg), ))
+        logger.info('loss_rec {:.3f}| loss_im {:.3f}\t'
+              'PSNR {:.2f} | SSIM {:.4f}\t'
+              .format(float(loss_rec.data), float(loss_im.data),
+                      float(psnr_avg), float(ssim_avg), ))
         print('save display images')
+        logger.info('save display images')
         self.tripple_display(images_lr, images_sr, images_hr, pred_str_lr, pred_str_sr, label_strs, index)
         accuracy = round(n_correct / sum_images, 4)
         psnr_avg = round(psnr_avg.item(), 6)
         ssim_avg = round(ssim_avg.item(), 6)
         print('aster_accuray: %.2f%%' % (accuracy * 100))
+        logger.info('aster_accuray: %.2f%%' % (accuracy * 100))
         metric_dict['accuracy'] = accuracy
         metric_dict['psnr_avg'] = psnr_avg
         metric_dict['ssim_avg'] = ssim_avg

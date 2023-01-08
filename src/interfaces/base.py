@@ -149,7 +149,11 @@ class TextBase(object):
                         in_chans=4,
                         img_size=(16, 64),
                         window_size=16,
-                        upsampler='pixelshuffle')
+                        upsampler='pixelshuffle',
+                        depths=[(6)],
+                        num_heads=[(6)],
+                        STN=self.args.STN,
+                        mask=self.mask)
             image_crit = image_loss.ImageLoss(gradient=self.args.gradient, loss_weight=[1, 1e-4])
             # image_crit = nn.L1Loss()
         else:
@@ -167,6 +171,7 @@ class TextBase(object):
                 else:
                     model.load_state_dict(
                         {'module.' + k: v for k, v in torch.load(self.resume)['state_dict_G'].items()})
+                    print("load resume model")
         return {'model': model, 'crit': image_crit}
 
     def optimizer_init(self, model):

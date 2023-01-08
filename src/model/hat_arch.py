@@ -2,11 +2,18 @@ import math
 import torch
 import torch.nn as nn
 import torch.utils.checkpoint as checkpoint
+import torch.nn.functional as F
+import sys
 
-from basicsr.utils.registry import ARCH_REGISTRY
+# from basicsr.utils.registry import ARCH_REGISTRY
 from basicsr.archs.arch_util import to_2tuple, trunc_normal_
 
 from einops import rearrange
+
+sys.path.append('./')
+sys.path.append('../')
+from .recognizer.tps_spatial_transformer import TPSSpatialTransformer
+from .recognizer.stn_head import STNHead
 
 def drop_path(x, drop_prob: float = 0., training: bool = False):
     """Drop paths (Stochastic Depth) per sample (when applied in main path of residual blocks).
@@ -632,7 +639,7 @@ class PatchEmbed(nn.Module):
 
     def __init__(self, img_size=224, patch_size=4, in_chans=3, embed_dim=96, norm_layer=None):
         super().__init__()
-        img_size = to_2tuple(img_size)
+        img_size = img_size
         patch_size = to_2tuple(patch_size)
         patches_resolution = [img_size[0] // patch_size[0], img_size[1] // patch_size[1]]
         self.img_size = img_size
@@ -706,7 +713,7 @@ class Upsample(nn.Sequential):
         super(Upsample, self).__init__(*m)
 
 
-@ARCH_REGISTRY.register()
+# @ARCH_REGISTRY.register()
 class HAT(nn.Module):
     r""" Hybrid Attention Transformer
         A PyTorch implementation of : `Activating More Pixels in Image Super-Resolution Transformer`.
@@ -736,6 +743,11 @@ class HAT(nn.Module):
     """
 
     def __init__(self,
+                 scale_factor=2, 
+                 width=128, 
+                 height=32, 
+                 STN=False,
+                 mask=True,
                  img_size=64,
                  patch_size=1,
                  in_chans=3,
@@ -870,6 +882,26 @@ class HAT(nn.Module):
 
         self.apply(self._init_weights)
 
+        # ------------------------- 4, STN ------------------------- #
+        self.tps_inputsize = [32, 64]
+        in_planes = 3
+        if mask:
+            in_planes = 4
+        tps_outputsize = [height // scale_factor, width // scale_factor]
+        num_control_points = 20
+        tps_margins = [0.05, 0.05]
+        self.stn = STN
+        if self.stn:
+            self.tps = TPSSpatialTransformer(
+                output_image_size=tuple(tps_outputsize),
+                num_control_points=num_control_points,
+                margins=tuple(tps_margins))
+
+            self.stn_head = STNHead(
+                in_planes=in_planes,
+                num_ctrlpoints=num_control_points,
+                activation='none')
+
     def _init_weights(self, m):
         if isinstance(m, nn.Linear):
             trunc_normal_(m.weight, std=.02)
@@ -971,6 +1003,11 @@ class HAT(nn.Module):
     def forward(self, x):
         self.mean = self.mean.type_as(x)
         x = (x - self.mean) * self.img_range
+        
+        if self.stn and self.training:
+            x = F.interpolate(x, self.tps_inputsize, mode='bilinear', align_corners=True)
+            _, ctrl_points_x = self.stn_head(x)
+            x, _ = self.tps(x, ctrl_points_x)
 
         if self.upsampler == 'pixelshuffle':
             # for classical SR
@@ -984,14 +1021,21 @@ class HAT(nn.Module):
         return x
 
 if __name__ == '__main__':
+    # a = ([6])
+    # print(type(a[0]))
     device = torch.device('cuda')
     net = HAT(
         in_chans=4,
         img_size=(16, 64),
         window_size=8,
-        upsampler='pixelshuffle')
+        upsampler='pixelshuffle',
+        depths=[(6)],
+        num_heads=[(6)],
+        STN=True
+        )
     net = net.to(device)
-    input = torch.zeros(7, 4, 16, 64)
+    # input = torch.zeros(7, 3, 16, 64)
+    input = torch.rand(7, 4, 16, 64)
     input = input.to(device)
     output = net(input)
     print(output.size())
