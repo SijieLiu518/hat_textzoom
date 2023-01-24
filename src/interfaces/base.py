@@ -20,7 +20,7 @@ from model import recognizer
 from model import moran
 from model import crnn
 from dataset import lmdbDataset, alignCollate_real, ConcatDataset, lmdbDataset_real, alignCollate_syn, lmdbDataset_mix
-from loss import gradient_loss, percptual_loss, image_loss
+from loss import gradient_loss, percptual_loss, image_loss, image_percptual_loss
 
 from utils.labelmaps import get_vocabulary, labels2strs
 
@@ -150,12 +150,13 @@ class TextBase(object):
                         img_size=(16, 64),
                         window_size=16,
                         upsampler='pixelshuffle',
-                        depths=[(6)],
-                        num_heads=[(6)],
+                        depths=[6, 6, 6, 6],
+                        num_heads=[6, 6, 6, 6],
                         STN=self.args.STN,
                         mask=self.mask)
-            image_crit = image_loss.ImageLoss(gradient=self.args.gradient, loss_weight=[1, 1e-4])
+            # image_crit = image_loss.ImageLoss(gradient=self.args.gradient, loss_weight=[1, 1e-4])
             # image_crit = nn.L1Loss()
+            image_crit = image_percptual_loss.ImagePercptualLoss(gradient=self.args.gradient, loss_weight=[1, 1e-4])
         else:
             raise ValueError
         if self.args.arch != 'bicubic':

@@ -1,6 +1,6 @@
 *.pth
 *.jpg
 *.png
-*.pth.tar
+# *.pth.tar
 *.mdb
 /src/dataset/TextZoom

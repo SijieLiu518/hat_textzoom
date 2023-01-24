@@ -7,7 +7,7 @@ TRAIN:
     'dataset/TextZoom/train1',
     'dataset/TextZoom/train2',
   ]
-  batch_size: 80
+  batch_size: 26
   width: 128
   height: 32
   epochs: 500

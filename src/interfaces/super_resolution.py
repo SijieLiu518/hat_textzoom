@@ -82,6 +82,7 @@ class TextSR(base.TextBase):
 
                 image_sr = model(images_lr)
                 loss_im = image_crit(image_sr, images_hr).mean() * 100
+                # print('loss_im', loss_im)
 
                 optimizer_G.zero_grad()
                 loss_im.backward()
