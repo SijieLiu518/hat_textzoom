@@ -20,7 +20,9 @@ from model import recognizer
 from model import moran
 from model import crnn
 from dataset import lmdbDataset, alignCollate_real, ConcatDataset, lmdbDataset_real, alignCollate_syn, lmdbDataset_mix
-from loss import gradient_loss, percptual_loss, image_loss, image_percptual_loss
+# from loss import gradient_loss, percptual_loss, image_loss, image_percptual_loss
+import loss
+from loss import *
 
 from utils.labelmaps import get_vocabulary, labels2strs
 
@@ -64,6 +66,9 @@ class TextBase(object):
         alphabet_moran = ':'.join(string.digits+string.ascii_lowercase+'$')
         self.converter_moran = utils_moran.strLabelConverterForAttention(alphabet_moran, ':')
         self.converter_crnn = utils_crnn.strLabelConverter(string.digits + string.ascii_lowercase)
+        self.loss_type = self.config.TRAIN.loss_type
+        # self.loss = getattr(loss, self.loss_type)
+        self.loss = eval(self.loss_type)
 
     def get_train_data(self):
         cfg = self.config.TRAIN
@@ -118,7 +123,8 @@ class TextBase(object):
         if self.args.arch == 'tsrn':
             model = tsrn.TSRN(scale_factor=self.scale_factor, width=cfg.width, height=cfg.height,
                                        STN=self.args.STN, mask=self.mask, srb_nums=self.args.srb, hidden_units=self.args.hd_u)
-            image_crit = image_loss.ImageLoss(gradient=self.args.gradient, loss_weight=[1, 1e-4])
+            # image_crit = loss.ImageLoss(gradient=self.args.gradient, loss_weight=[1, 1e-4])
+            image_crit = self.loss(gradient=self.args.gradient, loss_weight=[1, 1e-4])
         elif self.args.arch == 'bicubic' and self.args.test:
             model = bicubic.BICUBIC(scale_factor=self.scale_factor)
             image_crit = nn.MSELoss()
@@ -148,15 +154,13 @@ class TextBase(object):
             model = hat_arch.HAT(
                         in_chans=4,
                         img_size=(16, 64),
-                        window_size=16,
+                        window_size=4,
                         upsampler='pixelshuffle',
                         depths=[6, 6, 6, 6],
                         num_heads=[6, 6, 6, 6],
                         STN=self.args.STN,
                         mask=self.mask)
-            # image_crit = image_loss.ImageLoss(gradient=self.args.gradient, loss_weight=[1, 1e-4])
-            # image_crit = nn.L1Loss()
-            image_crit = image_percptual_loss.ImagePercptualLoss(gradient=self.args.gradient, loss_weight=[1, 1e-4])
+            image_crit = self.loss(gradient=self.args.gradient, loss_weight=[1, 1e-4])
         else:
             raise ValueError
         if self.args.arch != 'bicubic':

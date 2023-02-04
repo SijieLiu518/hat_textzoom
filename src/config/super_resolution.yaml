@@ -7,7 +7,7 @@ TRAIN:
     'dataset/TextZoom/train1',
     'dataset/TextZoom/train2',
   ]
-  batch_size: 26
+  batch_size: 32
   width: 128
   height: 32
   epochs: 500
@@ -28,6 +28,7 @@ TRAIN:
   max_len: 100
   keep_ratio: False
   down_sample_scale: 2
+  loss_type: CRNNImagePercptualLoss # type:[ImageLoss, L1Loss, MSELoss, CRNNImagePercptualLoss]
 
   VAL:
     val_data_dir: [
