@@ -120,6 +120,7 @@ class TextBase(object):
 
     def generator_init(self):
         cfg = self.config.TRAIN
+        network_cfg = self.config.NETWORK
         if self.args.arch == 'tsrn':
             model = tsrn.TSRN(scale_factor=self.scale_factor, width=cfg.width, height=cfg.height,
                                        STN=self.args.STN, mask=self.mask, srb_nums=self.args.srb, hidden_units=self.args.hd_u)
@@ -152,12 +153,13 @@ class TextBase(object):
             image_crit = lapsrn.L1_Charbonnier_loss()
         elif self.args.arch == 'hat':
             model = hat_arch.HAT(
-                        in_chans=4,
-                        img_size=(16, 64),
-                        window_size=4,
-                        upsampler='pixelshuffle',
-                        depths=[6, 6, 6, 6],
-                        num_heads=[6, 6, 6, 6],
+                        in_chans=network_cfg.in_chans,
+                        img_size=network_cfg.img_size,
+                        window_size=network_cfg.window_size,
+                        upsampler=network_cfg.upsampler,
+                        depths=network_cfg.depths,
+                        num_heads=network_cfg.num_heads,
+                        embed_dim=network_cfg.embed_dim,
                         STN=self.args.STN,
                         mask=self.mask)
             image_crit = self.loss(gradient=self.args.gradient, loss_weight=[1, 1e-4])
