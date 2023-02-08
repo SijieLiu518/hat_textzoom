@@ -1077,3 +1077,84 @@
 2023-02-08 02:18:52,482 INFO: best_medium = 45.50%
 2023-02-08 02:19:44,398 INFO: Epoch: [47][304/868]	vis_dir=vis	45.150 	
 2023-02-08 02:20:36,260 INFO: Epoch: [47][404/868]	vis_dir=vis	51.297 	
+2023-02-08 02:21:28,127 INFO: Epoch: [47][504/868]	vis_dir=vis	38.612 	
+2023-02-08 02:22:19,929 INFO: Epoch: [47][604/868]	vis_dir=vis	38.685 	
+2023-02-08 02:23:11,949 INFO: Epoch: [47][704/868]	vis_dir=vis	43.842 	
+2023-02-08 02:24:03,756 INFO: Epoch: [47][804/868]	vis_dir=vis	39.384 	
+2023-02-08 02:24:55,990 INFO: Epoch: [48][36/868]	vis_dir=vis	43.763 	
+2023-02-08 02:25:47,860 INFO: Epoch: [48][136/868]	vis_dir=vis	42.616 	
+2023-02-08 02:26:39,839 INFO: Epoch: [48][236/868]	vis_dir=vis	40.936 	
+2023-02-08 02:27:31,819 INFO: Epoch: [48][336/868]	vis_dir=vis	43.904 	
+2023-02-08 02:27:31,819 INFO: ======================================================
+2023-02-08 02:27:31,819 INFO: evaling hard
+2023-02-08 02:28:48,058 INFO: loss_rec 382.269| loss_im 0.395	PSNR 19.15 | SSIM 0.6558	
+2023-02-08 02:28:48,058 INFO: save display images
+2023-02-08 02:28:48,070 INFO: aster_accuray: 32.46%
+2023-02-08 02:28:48,070 INFO: best_hard = 32.84%
+2023-02-08 02:28:48,070 INFO: evaling easy
+2023-02-08 02:30:16,992 INFO: loss_rec 548.379| loss_im 0.364	PSNR 21.72 | SSIM 0.7945	
+2023-02-08 02:30:16,992 INFO: save display images
+2023-02-08 02:30:17,028 INFO: aster_accuray: 67.26%
+2023-02-08 02:30:17,028 INFO: best_easy = 69.24%
+2023-02-08 02:30:17,028 INFO: evaling medium
+2023-02-08 02:31:37,122 INFO: loss_rec 479.230| loss_im 0.520	PSNR 18.73 | SSIM 0.6122	
+2023-02-08 02:31:37,122 INFO: save display images
+2023-02-08 02:31:37,158 INFO: aster_accuray: 45.57%
+2023-02-08 02:31:37,158 INFO: best_medium = 45.57%*
+2023-02-08 02:32:29,134 INFO: Epoch: [48][436/868]	vis_dir=vis	53.284 	
+2023-02-08 02:33:20,989 INFO: Epoch: [48][536/868]	vis_dir=vis	40.580 	
+2023-02-08 02:34:12,993 INFO: Epoch: [48][636/868]	vis_dir=vis	45.413 	
+2023-02-08 02:35:04,818 INFO: Epoch: [48][736/868]	vis_dir=vis	46.197 	
+2023-02-08 02:35:56,799 INFO: Epoch: [48][836/868]	vis_dir=vis	33.692 	
+2023-02-08 02:36:48,850 INFO: Epoch: [49][68/868]	vis_dir=vis	47.753 	
+2023-02-08 02:37:40,854 INFO: Epoch: [49][168/868]	vis_dir=vis	49.443 	
+2023-02-08 02:38:32,660 INFO: Epoch: [49][268/868]	vis_dir=vis	48.993 	
+2023-02-08 02:39:24,605 INFO: Epoch: [49][368/868]	vis_dir=vis	39.928 	
+2023-02-08 02:40:16,452 INFO: Epoch: [49][468/868]	vis_dir=vis	46.863 	
+2023-02-08 02:40:16,452 INFO: ======================================================
+2023-02-08 02:40:16,452 INFO: evaling hard
+2023-02-08 02:41:32,284 INFO: loss_rec 387.801| loss_im 0.343	PSNR 18.85 | SSIM 0.6385	
+2023-02-08 02:41:32,284 INFO: save display images
+2023-02-08 02:41:32,296 INFO: aster_accuray: 31.12%
+2023-02-08 02:41:32,296 INFO: best_hard = 32.84%
+2023-02-08 02:41:32,296 INFO: evaling easy
+2023-02-08 02:43:01,366 INFO: loss_rec 621.920| loss_im 0.413	PSNR 20.67 | SSIM 0.7594	
+2023-02-08 02:43:01,366 INFO: save display images
+2023-02-08 02:43:01,402 INFO: aster_accuray: 66.95%
+2023-02-08 02:43:01,402 INFO: best_easy = 69.24%
+2023-02-08 02:43:01,402 INFO: evaling medium
+2023-02-08 02:44:21,348 INFO: loss_rec 482.411| loss_im 0.485	PSNR 18.48 | SSIM 0.6027	
+2023-02-08 02:44:21,348 INFO: save display images
+2023-02-08 02:44:21,384 INFO: aster_accuray: 44.01%
+2023-02-08 02:44:21,384 INFO: best_medium = 45.57%
+2023-02-08 02:45:13,318 INFO: Epoch: [49][568/868]	vis_dir=vis	59.997 	
+2023-02-08 02:46:05,097 INFO: Epoch: [49][668/868]	vis_dir=vis	39.210 	
+2023-02-08 02:46:57,032 INFO: Epoch: [49][768/868]	vis_dir=vis	39.094 	
+2023-02-08 02:47:48,801 INFO: Epoch: [49][868/868]	vis_dir=vis	43.435 	
+2023-02-08 02:48:40,970 INFO: Epoch: [50][100/868]	vis_dir=vis	47.361 	
+2023-02-08 02:49:32,781 INFO: Epoch: [50][200/868]	vis_dir=vis	45.143 	
+2023-02-08 02:50:24,701 INFO: Epoch: [50][300/868]	vis_dir=vis	47.564 	
+2023-02-08 02:51:16,497 INFO: Epoch: [50][400/868]	vis_dir=vis	44.435 	
+2023-02-08 02:52:08,405 INFO: Epoch: [50][500/868]	vis_dir=vis	50.684 	
+2023-02-08 02:53:00,192 INFO: Epoch: [50][600/868]	vis_dir=vis	44.554 	
+2023-02-08 02:53:00,192 INFO: ======================================================
+2023-02-08 02:53:00,192 INFO: evaling hard
+2023-02-08 02:54:16,102 INFO: loss_rec 616.685| loss_im 0.377	PSNR 18.33 | SSIM 0.6193	
+2023-02-08 02:54:16,102 INFO: save display images
+2023-02-08 02:54:16,114 INFO: aster_accuray: 31.27%
+2023-02-08 02:54:16,114 INFO: best_hard = 32.84%
+2023-02-08 02:54:16,114 INFO: evaling easy
+2023-02-08 02:55:44,582 INFO: loss_rec 516.388| loss_im 0.419	PSNR 19.74 | SSIM 0.7325	
+2023-02-08 02:55:44,582 INFO: save display images
+2023-02-08 02:55:44,618 INFO: aster_accuray: 65.72%
+2023-02-08 02:55:44,618 INFO: best_easy = 69.24%
+2023-02-08 02:55:44,618 INFO: evaling medium
+2023-02-08 02:57:04,556 INFO: loss_rec 532.236| loss_im 0.557	PSNR 18.19 | SSIM 0.5851	
+2023-02-08 02:57:04,556 INFO: save display images
+2023-02-08 02:57:04,593 INFO: aster_accuray: 42.81%
+2023-02-08 02:57:04,593 INFO: best_medium = 45.57%
+2023-02-08 02:57:56,516 INFO: Epoch: [50][700/868]	vis_dir=vis	50.093 	
+2023-02-08 02:58:48,375 INFO: Epoch: [50][800/868]	vis_dir=vis	51.576 	
+2023-02-08 02:59:40,469 INFO: Epoch: [51][32/868]	vis_dir=vis	46.024 	
+2023-02-08 03:00:32,353 INFO: Epoch: [51][132/868]	vis_dir=vis	42.659 	
+2023-02-08 03:01:24,366 INFO: Epoch: [51][232/868]	vis_dir=vis	44.954 	

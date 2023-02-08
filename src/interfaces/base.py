@@ -159,7 +159,6 @@ class TextBase(object):
                         upsampler=network_cfg.upsampler,
                         depths=network_cfg.depths,
                         num_heads=network_cfg.num_heads,
-                        embed_dim=network_cfg.embed_dim,
                         STN=self.args.STN,
                         mask=self.mask)
             image_crit = self.loss(gradient=self.args.gradient, loss_weight=[1, 1e-4])

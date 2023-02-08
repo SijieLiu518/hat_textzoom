@@ -752,7 +752,7 @@ class HAT(nn.Module):
                  img_size=64,
                  patch_size=1,
                  in_chans=3,
-                 embed_dim=180,
+                 embed_dim=96,
                  depths=(6, 6, 6, 6),
                  num_heads=(6, 6, 6, 6),
                  window_size=7,
