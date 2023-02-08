@@ -1,0 +1,14 @@
+2023-01-16 18:46:53,138 INFO: {'MODEL': None, 'TRAIN': {'logger_dir': './logger/', 'train_data_dir': ['dataset/TextZoom/train1', 'dataset/TextZoom/train2'], 'batch_size': 26, 'width': 128, 'height': 32, 'epochs': 500, 'cuda': True, 'ngpu': 2, 'workers': 2, 'resume': '', 'ckpt_dir': './ckpt/', 'voc_type': 'all', 'saveInterval': 200, 'displayInterval': 100, 'adadelta': False, 'lr': 0.001, 'adam': True, 'beta1': 0.5, 'manualSeed': 1234, 'max_len': 100, 'keep_ratio': False, 'down_sample_scale': 2, 'VAL': {'val_data_dir': ['dataset/TextZoom/test/hard', 'dataset/TextZoom/test/easy', 'dataset/TextZoom/test/medium'], 'n_vis': 10, 'vis_dir': 'demo', 'valInterval': 1000, 'rec_pretrained': 'demo.pth.tar'}}, 'TEST': {'checkpoint': '', 'test_data_dir': []}, 'CONVERT': {'image_dir': None, 'lmdb_dir': None, 'n_convert': 10}}
+2023-01-16 18:46:53,138 INFO: ------------------- start training -------------------
+2023-01-16 18:47:58,676 INFO: Epoch: [0][100/667]	vis_dir=vis	1.905 	
+2023-01-16 18:49:00,754 INFO: Epoch: [0][200/667]	vis_dir=vis	1.695 	
+2023-01-16 18:50:04,214 INFO: Epoch: [0][300/667]	vis_dir=vis	1.270 	
+2023-01-16 18:51:09,748 INFO: Epoch: [0][400/667]	vis_dir=vis	1.527 	
+2023-01-16 18:52:17,600 INFO: Epoch: [0][500/667]	vis_dir=vis	1.554 	
+2023-01-16 18:53:30,441 INFO: Epoch: [0][600/667]	vis_dir=vis	1.037 	
+2023-01-16 18:54:42,881 INFO: Epoch: [1][33/667]	vis_dir=vis	1.245 	
+2023-01-16 18:55:58,130 INFO: Epoch: [1][133/667]	vis_dir=vis	1.092 	
+2023-01-16 18:57:15,581 INFO: Epoch: [1][233/667]	vis_dir=vis	1.196 	
+2023-01-16 18:58:36,695 INFO: Epoch: [1][333/667]	vis_dir=vis	1.621 	
+2023-01-16 18:58:36,695 INFO: ======================================================
+2023-01-16 18:58:36,695 INFO: evaling hard

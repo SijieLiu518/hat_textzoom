@@ -74,7 +74,8 @@ class ContentPercptualLoss(nn.Module):
         image_loss = self.image_loss(out_images, target_images)
         # # TV Loss
         tv_loss = self.tv_loss(out_images)
-        return image_loss + 0.006 * CP_loss + 2e-8 * tv_loss
+        # return image_loss + 0.006 * CP_loss + 2e-8 * tv_loss
+        return 0.1*image_loss + 0.0005 * CP_loss
 
 
 def parse_crnn_data(imgs_input):
