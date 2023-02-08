@@ -1,4 +1,5 @@
 import torch.nn as nn
+import torch
 
 
 class BidirectionalLSTM(nn.Module):
@@ -77,3 +78,15 @@ class CRNN(nn.Module):
         output = self.rnn(conv)
 
         return output
+
+if __name__ == '__main__':
+    input = torch.zeros(7, 1, 32, 128)
+    crnn = CRNN(32, 1, 37, 256)
+    feature_map1 = nn.Sequential(crnn.cnn[:3])
+    feature_map2 = nn.Sequential(crnn.cnn[3:6])
+    feature_map3 = nn.Sequential(crnn.cnn[6:12])
+    feature_map4 = nn.Sequential(crnn.cnn[12:18])
+    feature_map5 = nn.Sequential(crnn.cnn[18:])
+    
+    a = [feature_map1, feature_map2, feature_map3, feature_map4, feature_map5]
+    print(a)

@@ -4,16 +4,16 @@ NETWORK:
   type: HAT
   upscale: 2
   in_chans: 4
-  img_size: (16, 64)
+  img_size: [16, 64]
   window_size: 16
   compress_ratio: 3
   squeeze_factor: 30
   conv_scale: 0.01
   overlap_ratio: 0.5
   img_range: 1.
-  depths: [6, 6, 6, 6, 6, 6]
+  depths: [6, 6, 6, 6]
   embed_dim: 180
-  num_heads: [6, 6, 6, 6, 6, 6]
+  num_heads: [6, 6, 6, 6]
   mlp_ratio: 2
   upsampler: 'pixelshuffle'
   resi_connection: '1conv'
@@ -24,7 +24,7 @@ TRAIN:
     'dataset/TextZoom/train1',
     'dataset/TextZoom/train2',
   ]
-  batch_size: 32
+  batch_size: 20
   width: 128
   height: 32
   epochs: 500
@@ -45,7 +45,7 @@ TRAIN:
   max_len: 100
   keep_ratio: False
   down_sample_scale: 2
-  loss_type: CRNNImagePercptualLoss # type:[ImageLoss, L1Loss, MSELoss, CRNNImagePercptualLoss]
+  loss_type: ContentPercptualLoss # type:[ImageLoss, L1Loss, MSELoss, CRNNImagePercptualLoss, ContentPercptualLoss]
 
   VAL:
     val_data_dir: [
@@ -58,7 +58,7 @@ TRAIN:
     valInterval: 1000 #-1, val at the end of epoch
     rec_pretrained: 'demo.pth.tar'
     # moran_pretrained: 'moran.pth'
-    # crnn_pretrained: 'crnn.pth'
+    crnn_pretrained: 'src/model/crnn/crnn.pth'
 
 TEST:
   checkpoint: ''

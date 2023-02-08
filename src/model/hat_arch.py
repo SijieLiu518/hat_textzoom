@@ -641,6 +641,7 @@ class PatchEmbed(nn.Module):
         super().__init__()
         img_size = img_size
         patch_size = to_2tuple(patch_size)
+        print(img_size)
         patches_resolution = [img_size[0] // patch_size[0], img_size[1] // patch_size[1]]
         self.img_size = img_size
         self.patch_size = patch_size
@@ -1026,7 +1027,7 @@ if __name__ == '__main__':
     device = torch.device('cuda')
     net = HAT(
         in_chans=4,
-        img_size=(16, 64),
+        img_size=[16, 64],
         window_size=4,
         upsampler='pixelshuffle',
         depths=[(6)],
